@@ -47,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+
+      float velocity = Input.GetAxis("Horizontal") * moveSpeed;
       body.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, body.velocity.y);
 
       if (Input.GetKey(KeyCode.Space) && isGrounded()) {
