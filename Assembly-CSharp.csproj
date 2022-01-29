@@ -56,8 +56,9 @@
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Spikes.cs" />
     <Compile Include="Assets\Scripts\SpawnPlayer.cs" />
-    <Compile Include="Assets\Scripts\Player2Spawn.cs" />
     <Compile Include="Assets\Scripts\AreaOfDeath.cs" />
+    <Compile Include="Assets\Scripts\Player2Spawn.cs" />
+    <Compile Include="Assets\Scripts\EnemyMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

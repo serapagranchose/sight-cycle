@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
       animator.SetFloat("Speed", characterVelocity);
       Flip(velocity);
 
-      if (isGrounded)
+      if (isGrounded())
       {
           animator.SetBool("isJumping", false);
       }
