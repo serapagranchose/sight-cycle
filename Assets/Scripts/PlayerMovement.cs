@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
       RaycastHit2D hit = Physics2D.Raycast(transform.position + direction * raycastingDistance - new Vector3(0f, 0.25f, 0f), direction, 0.075f);
 
       if (hit.collider != null)
-        if (hit.transform.tag == "Terrain")
+        if (hit.transform.tag == "Ground")
           return true;
       return false;
     }
