@@ -4,12 +4,10 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D body;
     [SerializeField] private LayerMask collisionLayer;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundCheckRadius;
-    private bool isGrounded;
-    private bool isJumping;
+    [SerializeField] private float moveSpeed = 10;
+    [SerializeField] private float jumpForce = 5;
+    [SerializeField] private float raycastingDistance = 1f;
+    private Vector3 direction;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
 
@@ -19,50 +17,49 @@ public class PlayerMovement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
     }
 
+    private bool isGrounded()
+    {
+      RaycastHit2D ground = Physics2D.Raycast(transform.position, Vector2.down, raycastingDistance, collisionLayer);
+
+      if (ground.collider != null)
+        return true;
+      return false;
+    }
+
+    private bool isBlocked()
+    {
+      RaycastHit2D hit = Physics2D.Raycast(transform.position + direction * raycastingDistance - new Vector3(0f, 0.25f, 0f), direction, 0.075f);
+
+      if (hit.collider != null)
+        if (hit.transform.tag == "Terrain")
+          return true;
+      return false;
+    }
+
+    void Flip(float velocity)
+    {
+        if (velocity  > 0.1f)
+            spriteRenderer.flipX = false;
+        else if(velocity  < -0.1f)
+            spriteRenderer.flipX = true;
+    }
+
     // Update is called once per frame
     private void Update()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, collisionLayer);
-        float velocity = Input.GetAxis("Horizontal") * moveSpeed;
+      body.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, body.velocity.y);
 
+      if (Input.GetKey(KeyCode.Space) && isGrounded()) {
+        body.velocity = new Vector2(body.velocity.x, jumpForce);
+      }
 
-        body.velocity = new Vector2(velocity, body.velocity.y);
+      float characterVelocity = Mathf.Abs(velocity);
+      animator.SetFloat("Speed", characterVelocity);
+      Flip(velocity);
 
-        if (Input.GetKey(KeyCode.Space) && isGrounded) {
-            isJumping = true;
-            body.velocity = new Vector2(body.velocity.x, jumpForce);
-            isJumping = false;
-        }
-
-
-        float characterVelocity = Mathf.Abs(velocity);
-        animator.SetFloat("Speed", characterVelocity);
-        Flip(velocity);
-
-        if (isGrounded)
-        {
-            animator.SetBool("isJumping", false);
-        }
-        else 
-        {
-            animator.SetBool("isJumping", true);
-        }
-
+      if (isGrounded())
+          animator.SetBool("isJumping", false);
+      else
+          animator.SetBool("isJumping", true);
     }
-
-
-
-    void Flip(float velocity) 
-    {
-        if (velocity  > 0.1f) 
-        {
-            spriteRenderer.flipX = false;
-        }
-        else if(velocity  < -0.1f) 
-        {
-            spriteRenderer.flipX = true; 
-        }
-            
-    }
-
 }
