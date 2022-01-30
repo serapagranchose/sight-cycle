@@ -26,8 +26,13 @@ public class PlayerMovement : MonoBehaviour
       return false;
     }
 
-    private bool isBlocked()
+    private bool isBlocked(float velocity)
     {
+      if (velocity > 0.1f)
+        direction = Vector3.right;
+      else if (velocity < -0.1f)
+        direction = Vector3.left;
+
       RaycastHit2D hit = Physics2D.Raycast(transform.position + direction * raycastingDistance - new Vector3(0f, 0.25f, 0f), direction, 0.075f);
 
       if (hit.collider != null)
@@ -40,7 +45,10 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
       float velocity = Input.GetAxis("Horizontal") * moveSpeed;
-      body.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, body.velocity.y);
+
+      if (!isBlocked(velocity)) {
+        body.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, body.velocity.y);
+      }
 
       if (Input.GetKey(KeyCode.Space) && isGrounded()) {
         body.velocity = new Vector2(body.velocity.x, jumpForce);
