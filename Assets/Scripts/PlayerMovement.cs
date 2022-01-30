@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
       RaycastHit2D hit = Physics2D.Raycast(transform.position + direction * raycastingDistance - new Vector3(0f, 0.25f, 0f), direction, 0.075f);
 
       if (hit.collider != null)
-        if (hit.transform.tag == "Terrain")
+        if (hit.transform.tag == "Ground")
           return true;
       return false;
     }
@@ -47,7 +47,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
       float velocity = Input.GetAxis("Horizontal") * moveSpeed;
       body.velocity = new Vector2(Input.GetAxis("Horizontal") * moveSpeed, body.velocity.y);
 
@@ -60,8 +63,33 @@ public class PlayerMovement : MonoBehaviour
       Flip(velocity);
 
       if (isGrounded())
+<<<<<<< HEAD
           animator.SetBool("isJumping", false);
       else
           animator.SetBool("isJumping", true);
     }
+=======
+      {
+          animator.SetBool("isJumping", false);
+      }
+      else
+      {
+          animator.SetBool("isJumping", true);
+      }
+    }
+
+    void Flip(float velocity)
+    {
+        if (velocity  > 0.1f)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if(velocity  < -0.1f)
+        {
+            spriteRenderer.flipX = true;
+        }
+
+    }
+
+>>>>>>> main
 }
