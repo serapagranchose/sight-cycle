@@ -1,4 +1,4 @@
-# duality
+# Sight Cycle
 
 Sight Cycle is a 2D game that wavers between the classic platformer and the puzzle-game;
 Created in 48H for the Global Game Jam 2022 on the theme of duality.
